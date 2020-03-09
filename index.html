@@ -21,20 +21,39 @@
     <H2>VANILLA JAVASCRIPT HANGMAN GAME</H2>
     <H4>Use your keyboard to type the letter in that you want to use.</H4>
     <hr />
-    <p>Letters you have already used</p>
-    <div id="buttons"></div>
+
+
+<div class="row">
+  <div class="col-md-8">
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-12 col-sm-8">
+        <div class="row">
+          <div class="col-12">
+            <div id="word"></div>
+          </div>
+        </div>
+      </div>
+      <div class="d-none d-sm-block col-sm-4"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm-8">
         <canvas id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas>
       </div>
-      <div class="col-md-6">
-        <div id="word"></div>
-        <p id="lives"></p>
+      <div class="col-12 col-sm-4">
+        <p class="" id="lives"></p>
+        <p id="wins"></p>
       </div>
-
     </div>
   </div>
+
+  <div class="col-md-4">
+    <p>Letters you have already used</p>
+    <div id="buttons"></div>
+  </div>
+
+</div>
 
 
   <script type="text/javascript" src="assets/js/game.js"></script>
@@ -52,8 +71,8 @@
     for (var i = 0; i < this.alphabet.length; i++) {
       letters.id = 'alphabet';
       var list = document.createElement('li');
-      list.id = 'letter';
-      list.innerHTML = this.alphabet[i];
+      list.id = alphabet[i];
+      list.innerHTML = alphabet[i];
       myButtons.appendChild(letters);
       letters.appendChild(list);
     }

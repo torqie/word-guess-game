@@ -6,6 +6,7 @@ var game = {
   lives: 12,
   wins: 0,
   keyPressed:  "",
+  alphabet: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
 
   textWordGuessed: document.getElementById("word"),
   textLives: document.getElementById("lives"),
@@ -36,9 +37,10 @@ var game = {
 
   /** Check the letter against the already guessed letters. **/
   checkLetter() {
-    if (!this.lettersGuessed.includes(this.keyPressed)) {
+    if (!this.lettersGuessed.includes(this.keyPressed) && this.alphabet.includes(this.keyPressed)) {
       //Update lettersGuessed array with key that was pressed.
       this.lettersGuessed.push(this.keyPressed);
+      document.getElementById(this.keyPressed).setAttribute("class", "active");
       return true;
     }
     return false;
