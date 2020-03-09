@@ -6,15 +6,7 @@ body {
   text-align: center;
   font-size: 18px;
 }
-.wrappper {
-  width: 100%;
-  margin: 0 auto;
-}
-.wrappper:after {
-  content: "";
-  display: table;
-  clear: both;
-}
+
 canvas {
   color: #fff;
   border: #fff dashed 2px;

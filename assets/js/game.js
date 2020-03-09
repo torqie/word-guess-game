@@ -1,21 +1,24 @@
 var game = {
   words: ["one", "two", "three"],
   currentWord: "",
-  wordGuessed: "",
+  wordGuessed: [],
   lettersGuessed: [],
-  guessesLeft: 12,
+  lives: 12,
   wins: 0,
   keyPressed:  "",
+
+  textWordGuessed: document.getElementById("word"),
+  textLives: document.getElementById("lives"),
+
 
 
   //Methods
   init: function() {
       this.currentWord = this.setCurrentWord();
       this.wordGuessed = this.setWordUnderscores(this.currentWord);
-      this.buttons();
+      this.updateText();
+
   },
-
-
 
   //Set the current word for the game.
   setCurrentWord() {
@@ -32,7 +35,7 @@ var game = {
   },
 
   /** Check the letter against the already guessed letters. **/
-  checkLetter: function() {
+  checkLetter() {
     if (!this.lettersGuessed.includes(this.keyPressed)) {
       //Update lettersGuessed array with key that was pressed.
       this.lettersGuessed.push(this.keyPressed);
@@ -44,31 +47,49 @@ var game = {
   /** Check the letter to see if it is in the word. **/
   checkWord: function() {
     //explode the word into an array
-    const wordExploded = this.currentWord.split("");
+    var wordExploded = this.currentWord.split("");
 
-    var pos = 0;
-    var i = -1;
-
-    while(pos !== -1)
-    {
-      pos = wordExploded.indexOf(this.keyPressed, i + 1);
-      i = pos;
-      this.updateWordGuessed(pos);
+    //Check if letter is in word
+    if(wordExploded.indexOf(this.keyPressed) !== -1) {
+      var pos = 0;
+      var i = -1;
+      while(pos !== -1) {
+        pos = wordExploded.indexOf(this.keyPressed, i + 1);
+        i = pos;
+        this.updateWordGuessed(pos);
+        this.updateText();
+      }
+      return true;
+    } else {
+      this.lives--;
+      this.updateText();
+      this.checkIfLoss();
+      return false;
     }
-    return true;
   },
 
   //Updated the Guessed word with letter pressed
   updateWordGuessed: function(i) {
     this.wordGuessed[i] = this.keyPressed;
-    return this.checkIfWon();
   },
 
   checkIfWon() {
     if(this.wordGuessed.indexOf("_") === -1) {
+      this.wins++;
       return true
     }
+  },
 
+  checkIfLoss() {
+    if(this.lives <= 0) {
+      alert("Game Over");
+    }
+  },
+
+
+  updateText() {
+    this.textWordGuessed.textContent = this.wordGuessed.join(' ');
+    this.textLives.textContent = "Lives: " + this.lives;
   },
 
   /** Log Debug To Console **/
@@ -78,7 +99,7 @@ var game = {
     console.log("Word Guessed: " + this.wordGuessed);
     console.log("Letters Guessed: " + this.lettersGuessed);
     console.log("Current Key Pressed: ", this.keyPressed);
-    console.log("Guesses Left: " + this.guessesLeft);
+    console.log("Guesses Left: " + this.lives);
     console.log("Wins: " + this.wins);
     console.log("---------------------------------");
   }
@@ -94,7 +115,7 @@ document.onkeyup = function(event) {
   if(newGame.checkLetter()) {
     if(newGame.checkWord()) {
       if(newGame.checkIfWon()) {
-        alert("YOU WIN")
+        alert("You win!")
       }
     }
   }
