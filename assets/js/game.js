@@ -13,13 +13,12 @@ function game() {
   this.textWins = document.getElementById("wins");
   this.that = this;
 
-
-  // Methods
-
   //Game Init
   this.init = function () {
-    this.currentWord = this.setCurrentWord();
-    this.wordGuessed = this.setWordUnderscores(this.currentWord);
+    const word = this.setCurrentWord();
+
+    this.currentWord = word.word;
+    this.wordGuessed = word.underscores;
     this.guesses = [];
     this.lives = 10;
     this.keyPressed = "";
@@ -45,16 +44,16 @@ function game() {
 
   // Set the current word for the game.
   this.setCurrentWord = function () {
-    return this.words[Math.floor(Math.random() * this.words.length)];
-  };
 
-  // Set the guessed word to all underscores
-  this.setWordUnderscores = function (word) {
+    // Get a random word
+    const word = this.words[Math.floor(Math.random() * this.words.length)];
+
+    // Set the new word to underscores
     const underscores = [];
     for (let i = 0; i < word.length; i++) {
       underscores.push("_");
     }
-    return underscores;
+    return {word: word, underscores: underscores}
   };
 
   // Check the letter against the already guessed letters.
@@ -118,6 +117,7 @@ function game() {
   };
 
   // Animation for the canvas to draw the stickman.
+  // Got the animation from https://codepen.io/cathydutton/pen/ldazc
   this.animate = function (that) {
     const frames = [];
     // Frames to draw on canvas as wrong letter is guessed.
