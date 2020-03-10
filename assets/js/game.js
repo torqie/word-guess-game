@@ -130,20 +130,7 @@ var game = {
     context.strokeStyle = "#fff";
     context.lineWidth = 2;
   },
-
-
-
-
-
-
-
-
   
-
-
-
-
-
   updateText() {
     this.textWordGuessed.textContent = this.wordGuessed.join(' ');
     this.textLives.textContent = "Lives: " + this.lives;
