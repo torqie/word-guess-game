@@ -1,20 +1,23 @@
 let wins = 0; //how many wins
 
-const game = {
-  words: ["one", "two", "three"], // Array of words to use.
-  currentWord: "", // Current selected Word.
-  wordGuessed: [], // Current state of the guessed word
-  guesses: [], // Letters already guessed
-  lives: 10, // Lives left until game is over
-  keyPressed: "", // current key that has been pressed
-  alphabet: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
-  textWordGuessed: document.getElementById("word"),
-  textLives: document.getElementById("lives"),
-  textWins: document.getElementById("wins"),
+function game() {
+  this.words = ["one", "two", "three"]; // Array of words to use.
+  this.currentWord = ""; // Current selected Word.
+  this.wordGuessed = []; // Current state of the guessed word
+  this.guesses = []; // Letters already guessed
+  this.lives = 10;// Lives left until game is over
+  this.keyPressed = ""; // current key that has been pressed
+  this.alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+  this.textWordGuessed = document.getElementById("word");
+  this.textLives = document.getElementById("lives");
+  this.textWins = document.getElementById("wins");
+  this.that = this;
 
 
   // Methods
-  init: function () {
+
+  //Game Init
+  this.init = function () {
     this.currentWord = this.setCurrentWord();
     this.wordGuessed = this.setWordUnderscores(this.currentWord);
     this.guesses = [];
@@ -23,38 +26,40 @@ const game = {
     this.resetAlphabet();
     this.resetCanvas();
     this.updateText();
-  },
+  };
 
-  resetAlphabet() {
+  //Resets the alphabet of already guessed words.
+  this.resetAlphabet = function () {
     for (let i = 0; i < this.alphabet.length; i++) {
       const el = document.getElementById(this.alphabet[i]);
       el.classList.remove("active");
     }
-  },
-  
-  resetCanvas() {
+  };
+
+  // Resets the canvas that the stickman drawing is on.
+  this.resetCanvas = function () {
     const myStickman = document.getElementById("stickman");
     const context = myStickman.getContext('2d');
     context.clearRect(0, 0, myStickman.width, myStickman.height);
-  },
+  };
 
   // Set the current word for the game.
-  setCurrentWord() {
+  this.setCurrentWord = function () {
     return this.words[Math.floor(Math.random() * this.words.length)];
-  },
+  };
 
   // Set the guessed word to all underscores
-  setWordUnderscores(word) {
-    var underscores = [];
-    for (var i = 0; i < word.length; i++) {
+  this.setWordUnderscores = function (word) {
+    const underscores = [];
+    for (let i = 0; i < word.length; i++) {
       underscores.push("_");
     }
     return underscores;
-  },
+  };
 
   // Check the letter against the already guessed letters.
-  checkLetter() {
-    // If the key pressed isnt in the already guessed letters, and is within the alphabet array
+  this.checkLetter = function () {
+    // If the key pressed isn't in the already guessed letters, and is within the alphabet array
     if (!this.guesses.includes(this.keyPressed) && this.alphabet.includes(this.keyPressed)) {
       //Update guesses array with key that was pressed.
       this.guesses.push(this.keyPressed);
@@ -64,17 +69,17 @@ const game = {
     }
     //Key pressed is either in the guessed letters or not in the alphabet.
     return false;
-  },
+  };
 
   // Check the letter to see if it is in the word.
-  checkWord: function () {
+  this.checkWord = function () {
     //explode the word into an array
-    var wordExploded = this.currentWord.split("");
+    const wordExploded = this.currentWord.split("");
 
     //Check if letter is in word
     if (wordExploded.indexOf(this.keyPressed) !== -1) {
-      var pos = 0;
-      var i = -1;
+      let pos = 0;
+      let i = -1;
       while (pos !== -1) {
         pos = wordExploded.indexOf(this.keyPressed, i + 1);
         i = pos;
@@ -83,49 +88,50 @@ const game = {
       }
       return true;
     } else {
-      this.animate();
+      this.animate(this);
       this.lives--;
       this.updateText();
       this.checkIfLoss();
       return false;
     }
-  },
+  };
 
   //Updated the Guessed word with letter pressed.
-  updateWordGuessed: function (i) {
+  this.updateWordGuessed = function (i) {
     this.wordGuessed[i] = this.keyPressed;
-  },
+  };
 
   //Check if game has been won.
-  checkIfWon() {
+  this.checkIfWon = function () {
     if (this.wordGuessed.indexOf("_") === -1) {
       wins++;
       this.updateText();
       return true
     }
-  },
+  };
 
   // Check if the game has been lost.
-  checkIfLoss() {
+  this.checkIfLoss = function () {
     if (this.lives <= 0) {
       alert("Game Over");
     }
-  },
+  };
 
-  // Animate man
-  animate() {
-    var frames = [];
+  // Animation for the canvas to draw the stickman.
+  this.animate = function (that) {
+    const frames = [];
+    // Frames to draw on canvas as wrong letter is guessed.
     frames['frame10'] = function () {
-      game.draw(0, 150, 150, 150)
+      that.draw(0, 150, 150, 150)
     };
     frames['frame9'] = function () {
-      game.draw(10, 0, 10, 600)
+      that.draw(10, 0, 10, 600)
     };
     frames['frame8'] = function () {
-      game.draw(0, 5, 70, 5)
+      that.draw(0, 5, 70, 5)
     };
     frames['frame7'] = function () {
-      game.draw(60, 5, 60, 15)
+      that.draw(60, 5, 60, 15)
     };
     frames['frame6'] = function () {
       var myStickman = document.getElementById("stickman");
@@ -135,46 +141,46 @@ const game = {
       context.stroke();
     };
     frames['frame5'] = function () {
-      game.draw(60, 36, 60, 70)
+      that.draw(60, 36, 60, 70)
     };
     frames['frame4'] = function () {
-      game.draw(60, 46, 100, 50)
+      that.draw(60, 46, 100, 50)
     };
     frames['frame3'] = function () {
-      game.draw(60, 46, 20, 50)
+      that.draw(60, 46, 20, 50)
     };
     frames['frame2'] = function () {
-      game.draw(60, 70, 100, 100)
+      that.draw(60, 70, 100, 100)
     };
     frames['frame1'] = function () {
-      game.draw(60, 70, 20, 100)
+      that.draw(60, 70, 20, 100)
     };
 
-
+    // Calling the method to draw the right body part
     frames['frame' + this.lives]();
-
-  },
+  };
 
   // Function to draw the lines for hangman.
-  draw($pathFromx, $pathFromy, $pathTox, $pathToy) {
+  this.draw = function ($pathFromx, $pathFromy, $pathTox, $pathToy) {
     var myStickman = document.getElementById("stickman");
     var context = myStickman.getContext('2d');
     context.beginPath();
-    context.strokeStyle = "#fff";
+    context.strokeStyle = "#ffffff";
     context.lineWidth = 2;
     context.moveTo($pathFromx, $pathFromy);
     context.lineTo($pathTox, $pathToy);
     context.stroke();
-  },
+  };
 
-  updateText() {
+  // Update the game text on the screen.
+  this.updateText = function () {
     this.textWordGuessed.textContent = this.wordGuessed.join(' ');
     this.textLives.textContent = "Lives: " + this.lives;
     this.textWins.textContent = "Wins: " + wins;
-  },
+  };
 
   // Log Debug To Console.
-  debug: function () {
+  this.debug = function () {
     console.log("Words: " + this.words);
     console.log("Current Word: " + this.currentWord);
     console.log("Word Guessed: " + this.wordGuessed);
@@ -183,8 +189,11 @@ const game = {
     console.log("Guesses Left: " + this.lives);
     console.log("Wins: " + wins);
     console.log("---------------------------------");
-  }
-};
+  };
+
+  // Calling the init function to start the game.
+  this.init();
+}
 
 
 

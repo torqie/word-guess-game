@@ -2,87 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Word Guess Game</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Oswald:200,300,400,500,600,700|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
+  <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Oswald:200,300,400,500,600,700|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+      rel="stylesheet">
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        rel="stylesheet">
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link href="assets/css/style.css" rel="stylesheet">
 
 </head>
 <body>
+<!-- [THE OVERLAY] -->
+<div id="overlay"></div>
+<!---->
+<div class="container">
+  <h1>HANGMAN</h1>
+  <H2>VANILLA JAVASCRIPT HANGMAN GAME</H2>
+  <H4>Use your keyboard to type the letter in that you want to use.</H4>
+  <hr/>
 
-  <!---->
-  <div class="container">
-    <h1>HANGMAN</h1>
-    <H2>VANILLA JAVASCRIPT HANGMAN GAME</H2>
-    <H4>Use your keyboard to type the letter in that you want to use.</H4>
-    <hr />
 
+  <div class="row">
+    <div class="col-md-8">
 
-<div class="row">
-  <div class="col-md-8">
-
-    <div class="row">
-      <div class="col-12 col-sm-8">
-        <div class="row">
-          <div class="col-12">
-            <div id="word"></div>
+      <div class="row">
+        <div class="col-12 col-sm-8">
+          <div class="row">
+            <div class="col-12">
+              <div id="word"></div>
+            </div>
           </div>
         </div>
+        <div class="d-none d-sm-block col-sm-4"></div>
       </div>
-      <div class="d-none d-sm-block col-sm-4"></div>
+
+      <div class="row">
+        <div class="col-12 col-sm-8">
+          <canvas id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas>
+        </div>
+        <div class="col-12 col-sm-4">
+          <p class="" id="lives"></p>
+          <p id="wins"></p>
+        </div>
+      </div>
     </div>
 
-    <div class="row">
-      <div class="col-12 col-sm-8">
-        <canvas id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas>
-      </div>
-      <div class="col-12 col-sm-4">
-        <p class="" id="lives"></p>
-        <p id="wins"></p>
-      </div>
+    <div class="col-md-4">
+      <p>Letters you have already used</p>
+      <div id="buttons"></div>
     </div>
+
   </div>
 
-  <div class="col-md-4">
-    <p>Letters you have already used</p>
-    <div id="buttons"></div>
-  </div>
+  <script src="assets/js/app.js" type="text/javascript"></script>
+  <script src="assets/js/game.js" type="text/javascript"></script>
 
-</div>
+  <script>
+    var newGame = new game();
+    //Get Key pressed
+    document.onkeyup = function (event) {
+      newGame.keyPressed = event.key.toLowerCase();
+      startGame();
+    };
 
-  <script type="text/javascript" src="assets/js/app.js"></script>
-  <script type="text/javascript" src="assets/js/game.js"></script>
+    var alphaButtons = document.getElementsByClassName("alphabet");
 
-<script>
-  var newGame = Object.create(game);
-  newGame.init();
-  //Get Key pressed
-  document.onkeyup = function(event) {
-    newGame.keyPressed = event.key.toLowerCase();
-    startGame();
-  };
+    console.log('buttons: ' + alphaButtons[0]);
 
-  var alphaButtons = document.getElementsByClassName("alphabet");
-
-  console.log('buttons: ' + alphaButtons[0]);
-
-  var startGame = function() {
-    if(newGame.checkLetter()) {
-      if(newGame.checkWord()) {
-        if(newGame.checkIfWon()) {
-          alert("You win!")
-          newGame = Object.create(game);
-          newGame.init();
+    var startGame = function () {
+      if (newGame.checkLetter()) {
+        if (newGame.checkWord()) {
+          if (newGame.checkIfWon()) {
+            alert("You win!")
+            newGame = new game();
+          }
         }
       }
-    }
-    newGame.debug();
-  };
-</script>
+      newGame.debug();
+    };
+  </script>
 </body>
 </html>
