@@ -70,9 +70,15 @@
       startGame();
     };
 
-    var alphaButtons = document.getElementsByClassName("alphabet");
+    var alpha = document.getElementsByClassName("alphabet");
+    for (var i = 0; i < alpha.length; i++) {
 
-    console.log('buttons: ' + alphaButtons[0]);
+      alpha[i].addEventListener("click", function () {
+        console.log("Alpha: " + this.id);
+        newGame.keyPressed = this.id;
+        startGame();
+      });
+    }
 
     var startGame = function () {
       if (newGame.checkLetter()) {
