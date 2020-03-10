@@ -1,49 +1,69 @@
+var  wins = 0; //how many wins
+
 var game = {
-  words: ["one", "two", "three"], //Array of words to use
-  currentWord: "", //Selected Word
+  words: ["one", "two", "three"], // Array of words to use.
+  currentWord: "", // Current selected Word.
   wordGuessed: [], // Current state of the guessed word
   guesses: [], // Letters already guessed
-  lives: 10, //Lives left until game is over
-  wins: 0,  //how many wins
-  keyPressed:  "", //current key that has been pressed
+  lives: 10, // Lives left until game is over
+  keyPressed:  "", // current key that has been pressed
   alphabet: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
   textWordGuessed: document.getElementById("word"),
   textLives: document.getElementById("lives"),
   textWins: document.getElementById("wins"),
+  //canvas: document.getElementById("stickman")
 
-  //Methods
+  // Methods
   init: function() {
       this.currentWord = this.setCurrentWord();
       this.wordGuessed = this.setWordUnderscores(this.currentWord);
+      this.guesses = [];
+      this.lives = 10;
+      this.keyPressed = "";
+      this.resetAlphabet();
+    var myStickman = document.getElementById("stickman");
+    var context = myStickman.getContext('2d');
+    context.clearRect(0, 0, myStickman.width, myStickman.height);
+
       this.updateText();
   },
 
-  //Set the current word for the game.
+  resetAlphabet() {
+    for(var i = 0; i < this.alphabet.length; i++) {
+      var el = document.getElementById(this.alphabet[i]);
+      el.classList.remove("active");
+    }
+  },
+
+  // Set the current word for the game.
   setCurrentWord() {
     return this.words[Math.floor(Math.random() * this.words.length)];
   },
 
-  /** Set the guessed word to all underscores **/
-  setWordUnderscores: function(word) {
-    const underscores = [];
-    for(let i = 0; i < word.length; i++) {
+  // Set the guessed word to all underscores
+  setWordUnderscores(word) {
+    var underscores = [];
+    for(var i = 0; i < word.length; i++) {
       underscores.push("_");
     }
     return underscores;
   },
 
-  /** Check the letter against the already guessed letters. **/
+  // Check the letter against the already guessed letters.
   checkLetter() {
+    // If the key pressed isnt in the already guessed letters, and is within the alphabet array
     if (!this.guesses.includes(this.keyPressed) && this.alphabet.includes(this.keyPressed)) {
       //Update guesses array with key that was pressed.
       this.guesses.push(this.keyPressed);
+      //Set the class 'active' on the letter of the key that was pressed to show that it can not be used again.
       document.getElementById(this.keyPressed).setAttribute("class", "active");
       return true;
     }
+    //Key pressed is either in the guessed letters or not in the alphabet.
     return false;
   },
 
-  /** Check the letter to see if it is in the word. **/
+  // Check the letter to see if it is in the word.
   checkWord: function() {
     //explode the word into an array
     var wordExploded = this.currentWord.split("");
@@ -68,25 +88,26 @@ var game = {
     }
   },
 
-  //Updated the Guessed word with letter pressed
+  //Updated the Guessed word with letter pressed.
   updateWordGuessed: function(i) {
     this.wordGuessed[i] = this.keyPressed;
   },
 
+  //Check if game has been won.
   checkIfWon() {
     if(this.wordGuessed.indexOf("_") === -1) {
-      this.wins++;
+      wins++;
       this.updateText();
       return true
     }
   },
 
+  // Check if the game has been lost.
   checkIfLoss() {
     if(this.lives <= 0) {
       alert("Game Over");
     }
   },
-
 
   // Animate man
   animate() {
@@ -96,7 +117,6 @@ var game = {
     frames['frame8'] = function() {game.draw (0, 5, 70, 5)};
     frames['frame7'] = function() {game.draw (60, 5, 60, 15)};
     frames['frame6'] = function() {
-      //Head
       var myStickman = document.getElementById("stickman");
       var context = myStickman.getContext('2d');
       context.beginPath();
@@ -109,35 +129,30 @@ var game = {
     frames['frame2'] = function() {game.draw (60, 70, 100, 100)};
     frames['frame1'] = function() {game.draw (60, 70, 20, 100)};
 
-  console.log("frame" + this.lives);
+
     frames['frame' + this.lives]();
 
   },
 
+  // Function to draw the lines for hangman.
   draw($pathFromx, $pathFromy, $pathTox, $pathToy) {
     var myStickman = document.getElementById("stickman");
     var context = myStickman.getContext('2d');
+    context.beginPath();
+    context.strokeStyle = "#fff";
+    context.lineWidth = 2;
     context.moveTo($pathFromx, $pathFromy);
     context.lineTo($pathTox, $pathToy);
     context.stroke();
   },
 
-  // Hangman
-  canvas() {
-    myStickman = document.getElementById("stickman");
-    context = myStickman.getContext('2d');
-    context.beginPath();
-    context.strokeStyle = "#fff";
-    context.lineWidth = 2;
-  },
-  
   updateText() {
     this.textWordGuessed.textContent = this.wordGuessed.join(' ');
     this.textLives.textContent = "Lives: " + this.lives;
-    this.textWins.textContent = "Wins: " + this.wins;
+    this.textWins.textContent = "Wins: " + wins;
   },
 
-  /** Log Debug To Console **/
+  // Log Debug To Console.
   debug: function() {
     console.log("Words: " + this.words);
     console.log("Current Word: " + this.currentWord);
@@ -145,34 +160,13 @@ var game = {
     console.log("Letters Guessed: " + this.guesses);
     console.log("Current Key Pressed: ", this.keyPressed);
     console.log("Guesses Left: " + this.lives);
-    console.log("Wins: " + this.wins);
+    console.log("Wins: " + wins);
     console.log("---------------------------------");
   }
 };
 
 
-const newGame = Object.create(game);
-newGame.init();
-//Get Key pressed
-document.onkeyup = function(event) {
-  newGame.keyPressed = event.key.toLowerCase();
-  startGame();
-};
 
-var alphaButtons = document.getElementsByClassName("alphabet");
-
-console.log('buttons: ' + alphaButtons[0]);
-
-var startGame = function() {
-  if(newGame.checkLetter()) {
-    if(newGame.checkWord()) {
-      if(newGame.checkIfWon()) {
-        alert("You win!")
-      }
-    }
-  }
-  newGame.debug();
-}
 
 
 

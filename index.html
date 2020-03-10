@@ -55,31 +55,34 @@
 
 </div>
 
-
+  <script type="text/javascript" src="assets/js/app.js"></script>
   <script type="text/javascript" src="assets/js/game.js"></script>
 
 <script>
-  var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-    'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-    't', 'u', 'v', 'w', 'x', 'y', 'z'];
-
-  // create alphabet ul
-  var buttons = function () {
-    var myButtons = document.getElementById('buttons');
-    var letters = document.createElement('ul');
-
-    for (var i = 0; i < this.alphabet.length; i++) {
-      letters.id = 'alphabet';
-      var list = document.createElement('li');
-      list.id = alphabet[i];
-      list.setAttribute("class", "alphabet");
-      list.innerHTML = alphabet[i];
-      myButtons.appendChild(letters);
-      letters.appendChild(list);
-    }
+  var newGame = Object.create(game);
+  newGame.init();
+  //Get Key pressed
+  document.onkeyup = function(event) {
+    newGame.keyPressed = event.key.toLowerCase();
+    startGame();
   };
 
-  buttons();
+  var alphaButtons = document.getElementsByClassName("alphabet");
+
+  console.log('buttons: ' + alphaButtons[0]);
+
+  var startGame = function() {
+    if(newGame.checkLetter()) {
+      if(newGame.checkWord()) {
+        if(newGame.checkIfWon()) {
+          alert("You win!")
+          newGame = Object.create(game);
+          newGame.init();
+        }
+      }
+    }
+    newGame.debug();
+  };
 </script>
 </body>
 </html>
