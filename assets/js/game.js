@@ -1,6 +1,6 @@
 let wins = 0; //how many wins
 
-function game() {
+function Hangman() {
   this.words = ["one", "two", "three"]; // Array of words to use.
   this.currentWord = ""; // Current selected Word.
   this.wordGuessed = []; // Current state of the guessed word
@@ -111,9 +111,7 @@ function game() {
 
   // Check if the game has been lost.
   this.checkIfLoss = function () {
-    if (this.lives <= 0) {
-      alert("Game Over");
-    }
+    return this.lives <= 0;
   };
 
   // Animation for the canvas to draw the stickman.

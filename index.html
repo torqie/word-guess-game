@@ -4,48 +4,48 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Word Guess Game</title>
-
   <!-- Google Fonts -->
   <link
       href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Oswald:200,300,400,500,600,700|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
       rel="stylesheet">
   <!-- Bootstrap -->
-  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-        rel="stylesheet">
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
   <!-- Main Stylesheet -->
   <link href="assets/css/style.css" rel="stylesheet">
-
 </head>
 <body>
 <!-- [THE OVERLAY] -->
 <!--<div id="overlay"></div>-->
 <!---->
 <div class="container">
-  <h1>HANGMAN</h1>
-  <H2>VANILLA JAVASCRIPT HANGMAN GAME</H2>
-  <H4>Use your keyboard to type the letter in that you want to use.</H4>
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1>HANGMAN</h1>
+      <H4 class="d-none d-md-block">Use your keyboard to type in letters, or use your mouse and click on the letters below.</H4>
+      <h4 class="d-md-none">Touch the letters below to begin the game</h4>
+    </div>
+  </div>
+
   <hr/>
-
-
   <div class="row">
     <div class="col-md-8">
 
       <div class="row">
-        <div class="col-12 col-sm-8">
+        <div class="col-12 col-md-8">
           <div class="row">
             <div class="col-12">
               <div id="word"></div>
             </div>
           </div>
         </div>
-        <div class="d-none d-sm-block col-sm-4"></div>
+        <div class="d-none d-md-block col-md-4"></div>
       </div>
 
       <div class="row">
-        <div class="col-12 col-sm-8">
+        <div class="col-12 col-md-8">
           <canvas id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas>
         </div>
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-md-4">
           <p class="" id="lives"></p>
           <p id="wins"></p>
         </div>
@@ -56,41 +56,40 @@
       <p>Letters you have already used</p>
       <div id="buttons"></div>
     </div>
-
   </div>
+</div>
+<script src="assets/js/app.js" type="text/javascript"></script>
+<script src="assets/js/game.js" type="text/javascript"></script>
 
-  <script src="assets/js/app.js" type="text/javascript"></script>
-  <script src="assets/js/game.js" type="text/javascript"></script>
+<script>
+  let game = new Hangman();
+  //Get Key pressed
+  document.onkeyup = function (event) {
+    game.keyPressed = event.key.toLowerCase();
+    startGame();
+  };
 
-  <script>
-    var newGame = new game();
-    //Get Key pressed
-    document.onkeyup = function (event) {
-      newGame.keyPressed = event.key.toLowerCase();
+  const alpha = document.getElementsByClassName("alphabet");
+  for (let i = 0; i < alpha.length; i++) {
+
+    alpha[i].addEventListener("click", function () {
+      console.log("Alpha: " + this.id);
+      game.keyPressed = this.id;
       startGame();
-    };
+    });
+  }
 
-    var alpha = document.getElementsByClassName("alphabet");
-    for (var i = 0; i < alpha.length; i++) {
-
-      alpha[i].addEventListener("click", function () {
-        console.log("Alpha: " + this.id);
-        newGame.keyPressed = this.id;
-        startGame();
-      });
-    }
-
-    var startGame = function () {
-      if (newGame.checkLetter()) {
-        if (newGame.checkWord()) {
-          if (newGame.checkIfWon()) {
-            alert("You win!")
-            newGame = new game();
-          }
+  var startGame = function () {
+    if (game.checkLetter()) {
+      if (game.checkWord()) {
+        if (game.checkIfWon()) {
+          alert("You win!")
+          game = new Hangman();
         }
       }
-      newGame.debug();
-    };
-  </script>
+    }
+    game.debug();
+  };
+</script>
 </body>
 </html>
