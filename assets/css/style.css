@@ -17,6 +17,8 @@ body {
 
 
 canvas {
+  background-color: rgba(58, 58, 58, 0.5);
+
   border: #ffffff dashed 3px;
   color: #ffffff;
   margin: 0 auto;
@@ -43,6 +45,22 @@ h2 {
 p {
   color: #ffffff;
   font-size: 1em;
+}
+
+.shadow {
+  -moz-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+}
+
+.statBox {
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  color: #202020;
+  padding: 7px;
 }
 
 #alphabet {

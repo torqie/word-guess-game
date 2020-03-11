@@ -109,15 +109,15 @@ function Hangman() {
     if (this.wordGuessed.indexOf("_") === -1) {
       wins++;
       this.updateText();
-      alert("Awesome, You Won!");
-      return true
+      return true;
     }
   };
 
   // Check if the game has been lost.
   this.checkIfLoss = function () {
     if (this.lives <= 0) {
-      alert("Sorry, you lost.");
+      wins = 0;
+      this.updateText();
       return true;
     }
   };

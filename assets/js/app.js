@@ -11,7 +11,8 @@ var buttons = function () {
     letters.id = 'alphabet';
     var list = document.createElement('li');
     list.id = alphabet[i];
-    list.setAttribute("class", "alphabet");
+    list.setAttribute("class", "alphabet shadow");
+
     list.innerHTML = alphabet[i];
     myButtons.appendChild(letters);
     letters.appendChild(list);

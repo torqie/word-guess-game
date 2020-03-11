@@ -43,7 +43,7 @@
 
       <div class="row">
         <div class="col-12 col-lg-8">
-          <canvas id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas>
+          <canvas class="shadow" id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas>
         </div>
         <div class="col-12 col-lg-4">
           <ul class="list-inline list-lg-block">
@@ -69,7 +69,7 @@
   //Get Key pressed
   document.onkeyup = function (event) {
     game.keyPressed = event.key.toLowerCase();
-    startGame();
+    play();
   };
 
   const alpha = document.getElementsByClassName("alphabet");
@@ -78,18 +78,21 @@
     alpha[i].addEventListener("click", function () {
       console.log("Alpha: " + this.id);
       game.keyPressed = this.id;
-      startGame();
+      play();
     });
   }
 
-  var startGame = function () {
+  //
+  var play = function () {
     if (game.checkWord()) {
       if (game.checkIfWon()) {
-        alert("You win!");
+        alert("Awesome!, You've won!");
         game = new Hangman();
       }
-      console.log("Loss: " + game.checkIfLoss());
-
+    }
+    if (game.checkIfLoss()) {
+      alert("Shucks, Ya lost, better luck next time.");
+      game = new Hangman();
     }
   };
   game.debug();
