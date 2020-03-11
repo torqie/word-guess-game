@@ -27,6 +27,7 @@
   </div>
 
   <hr/>
+
   <div class="row">
     <div class="col-12 col-lg-8">
 
@@ -46,10 +47,14 @@
           <canvas class="shadow" id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas>
         </div>
         <div class="col-12 col-lg-4">
-          <ul class="list-inline list-lg-block">
-            <li id="lives"></li>
-            <li id="wins"></li>
-          </ul>
+          <div class="row">
+            <div class="col-6 col-lg-12 text-center text-lg-left">
+              <h5><span class="badge badge-secondary" id="lives"></span></h5>
+            </div>
+            <div class="col-6 col-lg-12 text-center text-lg-left">
+              <h5><span class="badge badge-secondary" id="wins"></span></h5>
+            </div>
+          </div>
 
         </div>
       </div>
@@ -60,7 +65,10 @@
       <div id="buttons"></div>
     </div>
   </div>
+
 </div>
+
+
 <script src="assets/js/app.js" type="text/javascript"></script>
 <script src="assets/js/game.js" type="text/javascript"></script>
 

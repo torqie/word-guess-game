@@ -1,7 +1,7 @@
 let wins = 0; //how many wins
 
 function Hangman() {
-  this.words = ["one", "two", "three"]; // Array of words to use.
+  this.words = ["birdie", "bogey", "bunker", "eagle", "par", "tee", "fore", "putter", "driver", "wedge", "iron", "slice", "hook"]; // Array of words to use.
   this.currentWord = ""; // Current selected Word.
   this.wordGuessed = []; // Current state of the guessed word
   this.guesses = []; // Letters already guessed
@@ -86,13 +86,12 @@ function Hangman() {
           this.updateWordGuessed(pos);
           this.updateText();
         }
-        this.checkIfWon();
+
         return true;
       } else {
         this.animate(this);
         this.lives--;
         this.updateText();
-        this.checkIfLoss();
         return false;
       }
     }
