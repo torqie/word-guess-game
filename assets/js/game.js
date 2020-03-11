@@ -72,27 +72,31 @@ function Hangman() {
 
   // Check the letter to see if it is in the word.
   this.checkWord = function () {
-    //explode the word into an array
-    const wordExploded = this.currentWord.split("");
+    if (this.checkLetter()) {
+      //explode the word into an array
+      const wordExploded = this.currentWord.split("");
 
-    //Check if letter is in word
-    if (wordExploded.indexOf(this.keyPressed) !== -1) {
-      let pos = 0;
-      let i = -1;
-      while (pos !== -1) {
-        pos = wordExploded.indexOf(this.keyPressed, i + 1);
-        i = pos;
-        this.updateWordGuessed(pos);
+      //Check if letter is in word
+      if (wordExploded.indexOf(this.keyPressed) !== -1) {
+        let pos = 0;
+        let i = -1;
+        while (pos !== -1) {
+          pos = wordExploded.indexOf(this.keyPressed, i + 1);
+          i = pos;
+          this.updateWordGuessed(pos);
+          this.updateText();
+        }
+        this.checkIfWon();
+        return true;
+      } else {
+        this.animate(this);
+        this.lives--;
         this.updateText();
+        this.checkIfLoss();
+        return false;
       }
-      return true;
-    } else {
-      this.animate(this);
-      this.lives--;
-      this.updateText();
-      this.checkIfLoss();
-      return false;
     }
+    return false;
   };
 
   //Updated the Guessed word with letter pressed.
@@ -105,13 +109,17 @@ function Hangman() {
     if (this.wordGuessed.indexOf("_") === -1) {
       wins++;
       this.updateText();
+      alert("Awesome, You Won!");
       return true
     }
   };
 
   // Check if the game has been lost.
   this.checkIfLoss = function () {
-    return this.lives <= 0;
+    if (this.lives <= 0) {
+      alert("Sorry, you lost.");
+      return true;
+    }
   };
 
   // Animation for the canvas to draw the stickman.

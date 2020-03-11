@@ -20,39 +20,42 @@
 <div class="container">
   <div class="row">
     <div class="col-12 text-center">
-      <h1>HANGMAN</h1>
-      <H4 class="d-none d-md-block">Use your keyboard to type in letters, or use your mouse and click on the letters below.</H4>
-      <h4 class="d-md-none">Touch the letters below to begin the game</h4>
+      <h1>GOLF HANGMAN</h1>
+      <h3 class="d-none d-md-block">Use your keyboard to type in letters, or use your mouse and click on the letters below.</h3>
+      <h3 class="d-md-none">Touch the letters below to begin the game</h3>
     </div>
   </div>
 
   <hr/>
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-12 col-lg-8">
 
       <div class="row">
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-lg-8">
           <div class="row">
             <div class="col-12">
               <div id="word"></div>
             </div>
           </div>
         </div>
-        <div class="d-none d-md-block col-md-4"></div>
+        <div class="d-none d-md-block col-lg-4"></div>
       </div>
 
       <div class="row">
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-lg-8">
           <canvas id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas>
         </div>
-        <div class="col-12 col-md-4">
-          <p class="" id="lives"></p>
-          <p id="wins"></p>
+        <div class="col-12 col-lg-4">
+          <ul class="list-inline list-lg-block">
+            <li id="lives"></li>
+            <li id="wins"></li>
+          </ul>
+
         </div>
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-12 col-lg-4 text-center">
       <p>Letters you have already used</p>
       <div id="buttons"></div>
     </div>
@@ -80,16 +83,17 @@
   }
 
   var startGame = function () {
-    if (game.checkLetter()) {
-      if (game.checkWord()) {
-        if (game.checkIfWon()) {
-          alert("You win!")
-          game = new Hangman();
-        }
+    if (game.checkWord()) {
+      if (game.checkIfWon()) {
+        alert("You win!");
+        game = new Hangman();
       }
+      console.log("Loss: " + game.checkIfLoss());
+
     }
-    game.debug();
   };
+  game.debug();
+
 </script>
 </body>
 </html>
