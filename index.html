@@ -45,6 +45,7 @@
       <div class="row">
         <div class="col-12 col-lg-8">
           <canvas class="shadow" id="stickman">This Text will show if the Browser does NOT support HTML5 Canvas tag</canvas>
+          <h1 class="d-none" id="status"></h1>
         </div>
         <div class="col-12 col-lg-4">
           <div class="row">
@@ -94,13 +95,20 @@
   var play = function () {
     if (game.checkWord()) {
       if (game.checkIfWon()) {
-        alert("Awesome!, You've won!");
-        game = new Hangman();
+        setTimeout(function () {
+          game = new Hangman();
+        }, 2000);
+
+
       }
     }
     if (game.checkIfLoss()) {
-      alert("Shucks, Ya lost, better luck next time.");
-      game = new Hangman();
+      setTimeout(function () {
+        alert("Sorry you guess wrong. The word was '" + game.currentWord + "'. Click ok to restart the game.");
+        game = new Hangman();
+      }, 500);
+
+
     }
   };
   game.debug();

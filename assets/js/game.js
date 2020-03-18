@@ -11,7 +11,9 @@ function Hangman() {
   this.textWordGuessed = document.getElementById("word");
   this.textLives = document.getElementById("lives");
   this.textWins = document.getElementById("wins");
+  this.status = document.getElementById('status');
   this.that = this;
+  this.gameWon = false;
 
   //Game Init
   this.init = function () {
@@ -22,6 +24,7 @@ function Hangman() {
     this.guesses = [];
     this.lives = 10;
     this.keyPressed = "";
+    this.gameWon = false;
     this.resetAlphabet();
     this.resetCanvas();
     this.updateText();
@@ -107,6 +110,7 @@ function Hangman() {
   this.checkIfWon = function () {
     if (this.wordGuessed.indexOf("_") === -1) {
       wins++;
+      this.gameWon = true;
       this.updateText();
       return true;
     }
@@ -182,6 +186,12 @@ function Hangman() {
     this.textWordGuessed.textContent = this.wordGuessed.join(' ');
     this.textLives.textContent = "Lives: " + this.lives;
     this.textWins.textContent = "Wins: " + wins;
+    this.status.textContent = "";
+    this.status.classList.add("d-none");
+    if (this.gameWon) {
+      this.status.textContent = "YOU GUESSED THE WORD";
+      this.status.classList.remove("d-none");
+    }
   };
 
   // Log Debug To Console.
